@@ -7,11 +7,11 @@ namespace LUISdemo01.ConsoleApp
 {
     public class LuisClient : IDisposable
     {
-        private readonly string _appId = "762ba9dc-63e2-477a-8b6a-363daadb2c73";
+        private readonly string _appId;
 
-        private readonly string _subscriptionKey = "f0c0d8fd970b4dec88031b46da569c21";
+        private readonly string _subscriptionKey;
 
-        private readonly string _baseEndpoint = "https://westeurope.api.cognitive.microsoft.com/luis/v2.0/apps/";
+        private readonly string _baseEndpoint;
 
         private bool _isStaging;
 
@@ -25,6 +25,11 @@ namespace LUISdemo01.ConsoleApp
 
         public LuisClient(bool isStaging)
         {
+            var configuration = ConfigurationFactory.GetConfiguration();
+            _appId = configuration["Luis:AppId"];
+            _subscriptionKey = configuration["Luis:SubscriptionKey"];
+            _baseEndpoint = configuration["Luis:BaseEndpoint"];
+
             _client = new HttpClient();
             _isStaging = isStaging;
         }
